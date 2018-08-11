@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <!-- 文件上传属于一种特殊的表单提交，也需要两个页面 -  表单页  和   数据处理页 -->
+    <!-- action 上传表单数据的路径 -->
+    <form action="./upload2.php" method="post" enctype="multipart/form-data">
+        选择文件: <input type="file" name="a">
+        <input type="submit" value="上传">
+    </form>
+   
+    <!-- 文件上传关键点总结:
+
+ 1) upload.html （文件上传表单页）
+
+   ① 必须有form标签
+
+	action: 指定后台处理程序的路径
+
+	method: 指定提交方式 -  文件上传时必须使用post
+
+	enctype=”multipart/form-data”  - 文件上传时必须指定该属性
+
+   ② 文件域也必须有name属性和值
+
+   ③ 也必须使用submit类型的按钮来提交表单 
+
+ 2) upload.php （文件上传处理页）
+
+    ==① 选择好文件，点击submit提交表单时，文件就已经上传到服务器，存放到一个指定的临时路径下。可以在upload.php页面中使用 $_FILES 来查看上传后的文件信息==
+
+    $_FILES是一个二维数组，第一维下标是文件域的name值，第二维有5个下标
+
+     i. name: 上传文件的名称
+
+     ii. type: 上传文件的类型
+
+     iii.  tmp_name: 上传文件临时保存的路径
+
+     iv.  error: 错误码，0代表没有错误
+
+     v.  size: 上传文件的大小，单位是 bit 
+
+    ② move_uploaded_file() 函数将文件从临时路径，移动到想要保存到的位置
+
+      move_uploaded_file(var1, var2);
+
+      参数1: 临时保存的路径 -   $_FILES['pic']['tmp_name']     (pic是文件域的name值，当然也可以是别的)
+
+      参数2: 目标路径， ==需要带上文件名== -->
+
+</body>
+</html>
