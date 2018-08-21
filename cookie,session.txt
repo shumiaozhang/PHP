@@ -1,0 +1,48 @@
+       今天给大家说一下,什么是cookie和session,开始之前先给大家说一下,为什么会出现cookie和session呢? 那首先给大家介绍一下http, 大家都知道的http协议（如果大家不知道什么是http协议的，待续哦！）是无状态,没有记忆的,当浏览器访问一个页面时,发完就完了,不会产生任何的记忆。
+      这里就给大家介绍一下什么是会话控制，回话控制就是解决http无记忆的缺陷. 能够将数据持久化的保存在客户端(浏览器)或者服务器, 从而让浏览器和服务器进行多次数据交换,产生连续性。
+会话控制可以分为两类分为cookie(客户端) 和session（服务端）。
+     cookie
+cookie 是将数据持久化存储到客户端的一种技术
+一个网站最多村20个，一个最多大小为4k, 一个浏览器最多300个，即可以保存到文件中也能保存到内存中
+设置cookie 
+ setcookie(var1, var2, var3)
+ var1: cookie名称
+ var2：名称对应值（可选参数）
+ var3： 有效期 （可选参数）
+删除cookie
+ 第二个参数为null即可
+js控制cookie
+ cookie是将数据保存在客户端的，所以可以使用javascript来读取/设置cookie。 
+ 设置cookie: document.cookie = “名称=值;expires=时间” 读取cookie: document.cookie
+________________________________________
+
+session
+数据保存到服务器端
+使用时要先开启session_start()函数
+$_SESSION超全局变量就能设置和读写session中的内容
+设置session
+ $_SESSION['goods_name'] = '啊哈'；
+读取
+ print_r($_SESSION);
+删除
+ unset($_SESSION['name']); ///删除单个session
+ session_destroy(); //删除所有session
+________________________________________
+区别
+cookie: 
+ ①保存在浏览器中
+ ②可以随意设置，在不设置或者设置为-1时，关闭浏览器就会消失。 若参数3设置为time（）+秒数， 则在当前时间点的多少秒后失效。若设置了有效期则保存在文件中，否则保存在内存
+ ③ 当前的目录或者子目录
+ ④ 安全性一般，因为保存在浏览器中
+session：
+ ①保存在服务器中
+ ②有效期，浏览器关闭时，session消失
+ ③整个域名下都可以找到
+ ④ 安全，保存在服务器中
+________________________________________
+cookie原理：
+ 在浏览器第一次访问一个带有cookie功能页面时(setcookie)，cookie会随着响应头返回给浏览器。浏览器将cookie保存在内存或者文件中。之后，浏览器再次访问服务器时，将cookie的内容随请求头一起发送给服务器。
+session原理：
+ 在浏览器第一次访问一个带有session功能页面时(设置session)，服务器会产生一个session_id。该session_id有两个作用:
+1) 在服务器生成一个 sess_sessionid 文件，用来保存浏览器的重要数据。
+2) 随cookie返回给浏览器之后，浏览器再次访问服务器时，会将session_id随请求头(cookie)一起发送给服务器。
