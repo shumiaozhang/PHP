@@ -1,0 +1,33 @@
+不知道大家在用submit和button时，有时会不知道从那下手呢？怎么这用这个，而别的地方却用那个呢？，我现在给大家大概的说一下，如果已经知道的请忽略哦~~~ 
+
+
+具体什么时候用呢？
+
+	
+要根据实际情况，你要知道自己干什么，首先要知道什么区别呢
+就比如拿个按钮出来你想让他干什么呢？目标是什么呢？
+
+	
+就比如这个：
+ <form action="" id="f">
+        <!-- 必须要有id, 以便于获取 有name-->
+        用户名:<input type="text" name="name"><br> 
+        密码:<input type="text" name="pwd"><br>
+        邮　箱: <input type="text" name="email"><br>
+        <input type="button" id="btn" value="注册">
+    </form>
+
+
+
+这个代码要求是获取数据，发送这个数据请求ajax，就要用button。
+
+
+	再者 submit：有页面跳转功能，即使不进行页面跳转也会有刷新效果
+
+如果跳转页面就可以用submit，不跳转就可以用button
+
+
+如果表单提交（页面跳转）就可以用submit
+
+
+比如从数据库向前端添加学生信息功能，修改学生信息，也会用到表单提交，就必须要用submit了。
