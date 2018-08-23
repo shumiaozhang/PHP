@@ -1,0 +1,34 @@
+有时候在当我们在进行git push 的有时候会出错[rejected] master -> master (fetch first)
+错误代码如下：
+/*
+海阔天空@F6FR3S0LLSWAHRJ MINGW64 /f/Github/PHP (master)
+$ git push
+To https://github.com/shumiaozhang/PHP.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/shumiaozhang/PHP.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+*/
+此时我们可以执行 git push -f 语句 就能成功提交。
+此时显示如下：
+/*
+海阔天空@F6FR3S0LLSWAHRJ MINGW64 /f/Github/PHP (master)
+$ git push -f
+Enumerating objects: 28, done.
+Counting objects: 100% (28/28), done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (24/24), done.
+Writing objects: 100% (28/28), 20.38 KiB | 1.57 MiB/s, done.
+Total 28 (delta 7), reused 0 (delta 0)
+remote: Resolving deltas: 100% (7/7), done.
+To https://github.com/shumiaozhang/PHP.git
+ + b6d2e42...4efc435 master -> master (forced update)
+
+海阔天空@F6FR3S0LLSWAHRJ MINGW64 /f/Github/PHP (master)
+
+*/
+
+如果上述解决方式不管用也可以输入：git pull --rebase origin master 之后再进行git push 即可。
