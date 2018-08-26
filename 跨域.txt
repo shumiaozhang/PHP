@@ -1,0 +1,94 @@
+ajax跨域
+
+ajax跨域简单来说，就是网站A调用B网站的数据。
+
+说到这里还要再说一个那就是什么叫同源策略。同源策略其实就是它会阻止ajax跨域访问（就是阻止数据响应使用）。
+
+同源策略： 就是一种约定，是浏览器的一种安全功能。
+
+同源： 同协议，同域名， 同端口   跨域就是不同源。有同源策略，当获取一个网站数据时会报错，可以在相应主体里面看到服务器响应了浏览器的请求，将结果返回了浏览器, 但是却被浏览器阻拦了。【如请求的那个服务器数据为123，则可发现，在响应主体（response）已经有了数据123了，说明服务器响应了浏览器的请求，返回了数据给浏览器。此时报错结果为'Access-Control-Allow-Origin',只要看到该错误提示，就说明正在执行跨域请求，该请求的结果被浏览器阻拦了】
+解决同源策略有三种方式：
+
+1）服务器代理
+
+2）cors （跨资源共享）
+
+3）jsonp
+
+1)服务器代理
+它的原理就是，后台PHP有一个函数叫 file_get_contents()  它可以访问到本地数据也可以访问互联网数据，从而实现的跨域。
+
+2）cors 跨域
+cors 意思就是跨域资源共享
+原理：就是在服务器端（PHP文件中）声明一下要不要进行同源限制
+如果设置为*号 就是代表所有的外部网站都可以获取到这个文件的数据。header('Acess-Control-Allow-origin:*');如果只允许某个网站访问就直接写网址即可，比如让www.demo.com 这个网址访问就可以写成：header('Acess-Control-Allow-origin:www.demo.com');即可。
+
+3）jsonp跨域
+jsonp就是解决ajax跨域的一种方案。
+原理：利用src和href两个属性，可以跨域访问，利用这一“漏洞”发送ajax请求。
+就是在一个文件（比如www.study.com/jsonp/index.html）中用script标签引入另一个文件中的数据（比如www.demo.com/jsonp.php）。如数据为123，在相应主体中能看到，已经返回回来了。如果为aaa()就是返回一个函数调用的字符串，所以请求的文件要有一个函数定义。如果为aaa('{"name":"zs", "age":12}')，就是函数调用的参数为{"name":"zs", "age": 12} 。对象也能作为函数调用的参数。总结：什么数据都可以返回回来的。
+
+注意：jsonp不算ajax?   ，因为ajax需要实例化XMLHttpRequest对象，调用open、send等方法、属性和事件来完成。而jsonp是利用了src属性的漏洞来完成的跨域请求。
+
+ajax跨域jsonp方式 
+$.post $.get $.ajax都能发送跨域请求。但是，$.post和$.get是要依靠cors方式的，只有$.ajax能使用jsonp方式
+
+核心设置：
+
+设置请求类型为get方式   type：‘get’
+
+设置返回的数据类型dataType 为 dataType：‘jsonp’
+
+一个额外参数json，可以是任意参数英文字符串，但一般默认为callback， jsonp：‘callback'。
+
+该参数会产生一个随机字符串
+前端使用该字符串创建一个函数
+后端接收该字符串作为返回函数的名称
+
+例如: 使用jsonp发送跨域请求
+
+$.ajax({
+
+            url: 'http://www.demo.com/ajax_jsonp.php',
+
+            type: 'get',
+
+            dataType: 'jsonp',
+
+            jsonp: 'callback',
+
+            success: function(msg){  //函数定义
+
+                console.log(msg);
+
+            }
+
+        })   
+
+$callback = $_GET['callback']; //接受函数名
+
+echo $callback . "(123)"; ///拼接函数调用字符串
+
+执行结果为：
+
+可看出callback=jQuery12373491337883247891_13732787234   
+当jsonp 参数变为fn时，可看出fn=jQuery12373491337883247891_13732787234  所以也就是可以说
+
+$callback = $_GET['callback']; //接受前端发来的数据（在这也就是函数名）
+
+//$callback = jQuery12373491337883247891_13732787234
+
+echo $callback . "(123)"; ///拼接函数调用字符串   就相当于函数调用，
+
+而 sucess参数就相当于函数定义
+
+success: function(msg){  //就是函数定义
+
+                console.log(msg);
+
+            }
+
+
+
+
+
